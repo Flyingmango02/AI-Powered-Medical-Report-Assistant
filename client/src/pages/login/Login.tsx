@@ -1,8 +1,35 @@
 import { Link } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import './Login.css';
+import React, { useEffect, useState } from "react";
 
 export function Login() {
+    const [email, setEmail] = useState<string | null>("");
+    const [password, setPassword] = useState<string | null>("");
+    const [emailError, setEmailError] = useState<string | null>("");
+    const [passwordError, setPasswordError] = useState<string | null>("");
+
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const emailInput = email?.trim();
+        const passwordInput = password?.trim();
+
+        if (!emailInput) {
+            setEmailError("Email address is required");
+        }
+
+        if (!passwordInput) {
+            setPasswordError("Password is required");
+        }
+
+        // try {
+        //     const res = await 
+        // } catch (error) {
+
+        // }
+    }
+
     return (
         <div className="login-container">
             {/* Hero Section */}
@@ -23,7 +50,7 @@ export function Login() {
                 <div className="logo-container">
                     <h2>MedAssist AI</h2>
                 </div>
-                <div className="login-form-container">
+                <form className="login-form-container" onSubmit={handleSubmit}>
                     <div className='login-title'>
                         <h1>Welcome Back!</h1>
                         <p>Sign in to your MedAssist AI account</p>
@@ -31,14 +58,15 @@ export function Login() {
 
                     <div className='login-input-container'>
                         <label>Email address</label>
-                        <input type="email" placeholder='Enter your email' required />
-                        <p className="errorMsg">Email address is required</p>
+                        <input type="email" placeholder='Enter your email' onChange={(e) => setEmail(e.target.value)} required />
+                        {emailError && <p className="errorMsg">{emailError}</p>}
+                        
 
                         <label className="passwordLabel">Password <Link to="">Forgot password?</Link></label>
-                        <input type="password" placeholder='Enter your password' required />
-                        <p className="errorMsg">Password is required</p>
+                        <input type="password" placeholder='Enter your password' onChange={(e) => setPassword(e.target.value)} required />
+                        {passwordError && <p className="errorMsg">{passwordError}</p>}
 
-                        <Button variant="primary"><strong>Sign In</strong></Button>
+                        <Button variant="primary" type="submit"><strong>Sign In</strong></Button>
                         <Button variant="secondary">Continue with Google</Button>
 
                         <div className='sign-up-section'>
@@ -47,7 +75,7 @@ export function Login() {
                         </div>
                     </div>
 
-                </div>
+                </form>
             </div>
 
         </div>

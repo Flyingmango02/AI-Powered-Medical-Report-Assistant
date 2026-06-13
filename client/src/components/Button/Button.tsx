@@ -1,6 +1,6 @@
 import "./Button.css";
 
-type ButtonProps = {
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     variant?: 'primary' | 'secondary';
     children: React.ReactNode;
 };
