@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
+import { authService } from "../../services/authService";
 import './Login.css';
 import React, { useEffect, useState } from "react";
 
@@ -9,7 +10,7 @@ export function Login() {
     const [emailError, setEmailError] = useState<string | null>("");
     const [passwordError, setPasswordError] = useState<string | null>("");
 
-    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const emailInput = email?.trim();
@@ -17,17 +18,21 @@ export function Login() {
 
         if (!emailInput) {
             setEmailError("Email address is required");
+            return;
         }
 
         if (!passwordInput) {
             setPasswordError("Password is required");
+            return;
         }
 
-        // try {
-        //     const res = await 
-        // } catch (error) {
+        try {
+            const res = await authService.login(emailInput, passwordInput);
 
-        // }
+            console.log(res);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
