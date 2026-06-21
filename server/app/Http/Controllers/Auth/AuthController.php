@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController
 {
@@ -15,33 +16,42 @@ class AuthController
             'password' => ['required']
         ]);
 
-        $email = $credentials['email'];
-        $password = $credentials['password'];
+        // $email = $credentials['email'];
+        // $password = $credentials['password'];
 
-        // Get user from database with email
-        $foundUser = User::where('email', $email)->first();
+        // // Get user from database with email
+        // $foundUser = User::where('email', $email)->first();
 
-        if (!$foundUser) {
+        // if (!$foundUser) {
+        //     return response()->json([
+        //         'message' => 'Invalid Credentials'
+        //     ], 404);
+        // }
+
+        // // Check password
+        // if (!Hash::check($password, $foundUser->password)) {
+        //     return response()->json([
+        //         'message' => 'Invalid Credentials'
+        //     ], 401);
+        // }
+
+        // Check user using Auth
+        if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Invalid Credentials'
-            ], 404);
+                'message' => 'Invalid Credentials',
+            ], 401);
         }
 
-        // Check password
-        if (!Hash::check($password, $foundUser->password)) {
-            return response()->json([
-                'message' => 'Invalid Credentials'
-            ], 404);
-        }
+        // Generate new session Id
+        $request->session()->regenerate();
 
+        // Get user from memory
+        $user = Auth::user();
+        
         // Redirect for now, make it simple
         return response()->json([
             'message' => 'Login Successful',
-            'user' => [
-                'id' => $foundUser->user_id,
-                'username' => $foundUser->username,
-                'email' => $foundUser->email
-            ]
+            'user' => $user
         ]);
     }
 }
