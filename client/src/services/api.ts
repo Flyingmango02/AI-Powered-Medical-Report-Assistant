@@ -1,16 +1,28 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const apiService = {
-    async healthCheck() {
-        try {
-            const res = await fetch('http://127.0.0.1:8000/api/health');
+    async apiFetch(
+        url: string,
+        options: RequestInit = {}
+    ) {
+        const xsrfToken = getCookie("XSRF-TOKEN");
 
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
+        return fetch(`${API_URL}${url}`, {
+            ...options,
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                "X-XSRF-TOKEN": xsrfToken ?? "",
+                ...options.headers,
+            },
+        });
+    }
 
-            const data = await res.json();
-            return data;
-        } catch (err: unknown) {
-            throw new Error(`Error: ${err}`);
-        }
-    },
+
+}
+
+// get XSRF-token from browser
+export function getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+    return match ? decodeURIComponent(match[2]) : null;
 }
