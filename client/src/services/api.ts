@@ -17,8 +17,6 @@ export const apiService = {
             },
         });
     }
-
-
 }
 
 // get XSRF-token from browser

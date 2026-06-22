@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { authService } from "../../services/authService";
 import './Login.css';
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export function Login() {
     const [email, setEmail] = useState<string | null>("");
