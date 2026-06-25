@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
+import { NavBar } from "../components/NavBar/NavBar";
+import "./Layout.css";
 
 export function Layout() {
     return(
-        <div>
-            <nav>Navbar</nav>
-            {/* add side bar later on */}
-
+        <div className="layout-container">
+            <NavBar />
             {/* display children using outlet */}
             <main>
                 <Outlet />

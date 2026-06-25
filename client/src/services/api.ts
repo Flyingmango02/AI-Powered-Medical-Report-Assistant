@@ -7,12 +7,22 @@ export const apiService = {
     ) {
         const xsrfToken = getCookie("XSRF-TOKEN");
 
+        const isFormData =
+            typeof FormData !== "undefined" &&
+            options.body instanceof FormData;
+
         return fetch(`${API_URL}${url}`, {
             ...options,
             credentials: "include",
             headers: {
-                "Content-Type": "application/json",
+                "Accept": "application/json",
                 "X-XSRF-TOKEN": xsrfToken ?? "",
+
+                // check if it is file upload or not
+                ...(isFormData
+                    ? {}
+                    : { "Content-Type": "application/json" }
+                ),
                 ...options.headers,
             },
         });

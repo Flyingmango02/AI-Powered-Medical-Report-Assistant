@@ -5,8 +5,8 @@ import './Login.css';
 import React, { useState } from "react";
 
 export function Login() {
-    const [email, setEmail] = useState<string | null>("");
-    const [password, setPassword] = useState<string | null>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const [emailError, setEmailError] = useState<string | null>("");
     const [passwordError, setPasswordError] = useState<string | null>("");
 

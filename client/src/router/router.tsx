@@ -7,6 +7,8 @@ import { Timeline } from "../pages/timeline/Timeline";
 import { Medication } from "../pages/medication/Medication";
 import { AiAssistant } from "../pages/aiAssistant/AiAssistant";
 
+import { ProtectedRoute } from "./ProtectedRoutes";
+
 export const router = createBrowserRouter([
   {
     path: "/login",
@@ -15,7 +17,11 @@ export const router = createBrowserRouter([
 
   {
     path: "/",
-    element: <Layout />,
+    element:
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ,
     children: [
       {
         index: true,

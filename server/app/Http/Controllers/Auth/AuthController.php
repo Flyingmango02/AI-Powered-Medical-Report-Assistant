@@ -16,25 +16,6 @@ class AuthController
             'password' => ['required']
         ]);
 
-        // $email = $credentials['email'];
-        // $password = $credentials['password'];
-
-        // // Get user from database with email
-        // $foundUser = User::where('email', $email)->first();
-
-        // if (!$foundUser) {
-        //     return response()->json([
-        //         'message' => 'Invalid Credentials'
-        //     ], 404);
-        // }
-
-        // // Check password
-        // if (!Hash::check($password, $foundUser->password)) {
-        //     return response()->json([
-        //         'message' => 'Invalid Credentials'
-        //     ], 401);
-        // }
-
         // Check user using Auth
         if (!Auth::attempt($credentials)) {
             return response()->json([
@@ -53,5 +34,10 @@ class AuthController
             'message' => 'Login Successful',
             'user' => $user
         ]);
+    }
+
+    // return user for middleware
+    public function user(Request $request) {
+        return response()->json($request->user());
     }
 }

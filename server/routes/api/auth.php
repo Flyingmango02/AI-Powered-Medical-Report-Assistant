@@ -5,5 +5,9 @@ use App\Http\Controllers\Auth\AuthController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
-    // Route::post('/logout', [AuthController::class, 'logout']);
+
+    // middleware to get user session
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/me', [AuthController::class, 'user']);
+    });
 });

@@ -1,0 +1,17 @@
+.navBar-container {
+    display: flex;
+    align-items: center;
+
+    min-width: 70%;
+    height: 10vh;
+
+    background-color: aqua;
+}
+
+.navBar-items-container {
+    width: 100%;
+    height: 70%;
+    padding: 10px;
+
+    background-color: azure;
+}
