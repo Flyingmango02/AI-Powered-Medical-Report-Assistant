@@ -10,34 +10,37 @@ interface User {
 interface AuthContextType {
     user: User | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    loading: boolean;
 }
-
-type AuthState =
-    | { status: "loading" }
-    | { status: "authenticated"; user: User }
-    | { status: "guest" };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
     // get user when refreshing browser
     useEffect(() => {
         const initializeAuth = async () => {
             try {
+                console.log("AuthContext: Getiing user...");
                 const user = await authService.getUser();
+                console.log(user);
                 setUser(user);
             } catch {
                 setUser(null);
+            } finally {
+                setLoading(false);
+                console.log("AuthContext: User set");
             }
         };
 
+        console.log("AuthContext: Initializing...");
         initializeAuth();
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ user, setUser, loading }}>
             {children}
         </AuthContext.Provider>
     );
